@@ -1,0 +1,13 @@
+.header-container {
+    .input-search {
+        display: flex;
+        align-items: center;
+        margin-right: 30px;
+        .btn-search {
+            font-size: 24px;
+        }
+    }
+    .btn-right {
+        font-size: 24px;
+    }
+}

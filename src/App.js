@@ -10,14 +10,11 @@ const App = () => {
             <div className="header-container">
                 <Header />
             </div>
-            <div className="main-container">
-                <div className="sidenav-container">
-                    <SideNav />
-                </div>
-                <div className="app-content">
-                    <Outlet />
-                </div>
+
+            <div className="main-content container">
+                <Outlet />
             </div>
+
             <div className="header-container">
                 <Footer />
             </div>
