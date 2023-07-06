@@ -11,7 +11,7 @@ const App = () => {
                 <Header />
             </div>
 
-            <div className="main-content container">
+            <div className="main-content">
                 <Outlet />
             </div>
 

@@ -18,7 +18,7 @@ const Layout = (props) => {
         <>
             <Routes>
                 <Route path="/" element={<App />}>
-                    <Route index element={<HomePage />} />
+                    <Route path="/" element={<HomePage />} />
                     <Route path="news" element={<News />} />
                     <Route path="event" element={<Event />} />
                     <Route path="contact" element={<Contact />} />

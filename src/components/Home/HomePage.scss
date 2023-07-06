@@ -1,0 +1,13 @@
+.bot-container {
+    padding: 20px;
+    display: flex;
+
+    .side-nav {
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+    }
+    .content {
+        flex: 5;
+    }
+}
