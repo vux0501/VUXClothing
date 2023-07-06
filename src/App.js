@@ -1,22 +1,21 @@
-import logo from './logo.svg';
-import { DownloadOutlined } from '@ant-design/icons';
 import './App.scss';
-import { Button, Space } from 'antd';
+import Header from './components/Header/Header';
+import { Outlet } from 'react-router-dom';
 
-function App() {
+const App = () => {
     return (
-        <div className="App">
-            <header className="App-header">
-                <Button
-                    type="primary"
-                    shape="circle"
-                    icon={<DownloadOutlined />}
-                    size={36}
-                    className="containerbutton"
-                />
-            </header>
+        <div className="app-container">
+            <div className="header-container">
+                <Header />
+            </div>
+            <div className="main-container">
+                <div className="sidenav-container"></div>
+                <div className="app-content">
+                    <Outlet />
+                </div>
+            </div>
         </div>
     );
-}
+};
 
 export default App;
