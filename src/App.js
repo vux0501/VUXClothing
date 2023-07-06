@@ -1,6 +1,8 @@
 import './App.scss';
 import Header from './components/Header/Header';
 import { Outlet } from 'react-router-dom';
+import SideNav from './components/SideNav/SideNav';
+import Footer from './components/Footer/Footer';
 
 const App = () => {
     return (
@@ -9,10 +11,15 @@ const App = () => {
                 <Header />
             </div>
             <div className="main-container">
-                <div className="sidenav-container"></div>
+                <div className="sidenav-container">
+                    <SideNav />
+                </div>
                 <div className="app-content">
                     <Outlet />
                 </div>
+            </div>
+            <div className="header-container">
+                <Footer />
             </div>
         </div>
     );
