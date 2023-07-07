@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 
 const ProductDetail = () => {
+    window.scrollTo(0, 0);
     const navigate = useNavigate();
     const sizes = ['S', 'M', 'L', 'XL'];
     const [size, setSize] = useState(sizes[0]);
