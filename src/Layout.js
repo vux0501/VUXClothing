@@ -10,8 +10,10 @@ import Register from './components/Auth/Register';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import News from './components/News/News';
 import Event from './components/Event/Event';
-import Contact from './components/Contact/Contact';
+import Career from './components/Career/Career';
 import About from './components/About/About';
+import TypePage from './components/TypePage/TypePage';
+import ProductDetail from './components/ProductDetail/ProductDetail';
 
 const Layout = (props) => {
     return (
@@ -19,9 +21,11 @@ const Layout = (props) => {
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="typepage" element={<TypePage />} />
+                    <Route path="detail" element={<ProductDetail />} />
                     <Route path="news" element={<News />} />
                     <Route path="event" element={<Event />} />
-                    <Route path="contact" element={<Contact />} />
+                    <Route path="career" element={<Career />} />
                     <Route path="about" element={<About />} />
                 </Route>
                 <Route path="login" element={<Login />} />

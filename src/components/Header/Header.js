@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { CiSearch } from 'react-icons/ci';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
 import { NavLink, useNavigate } from 'react-router-dom';
+import Badge from 'react-bootstrap/Badge';
 
 import './Header.scss';
 
@@ -26,8 +27,8 @@ const Header = () => {
                         <NavLink to="/event" className="px-4 nav-link">
                             Event
                         </NavLink>
-                        <NavLink to="/contact" className="px-4 nav-link">
-                            Contact
+                        <NavLink to="/career" className="px-4 nav-link">
+                            Career
                         </NavLink>
                         <NavLink to="/about" className="px-4 nav-link">
                             About
@@ -39,12 +40,13 @@ const Header = () => {
                         <CiSearch className="btn-search" />
                     </Form>
                     <Nav className="d-flex btn-right">
-                        <Nav.Link href="#home" className="px-4">
+                        <NavLink href="#home" className="px-4 cart nav-link">
+                            <p className="cart-count">0</p>
                             <AiOutlineShoppingCart />
-                        </Nav.Link>
-                        <Nav.Link href="#link" className="px-4">
+                        </NavLink>
+                        <NavLink to="/login" className="px-4 nav-link">
                             <AiOutlineUser />
-                        </Nav.Link>
+                        </NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -1,16 +1,16 @@
 import React from 'react';
-import Carousels from '../Carousels/Carousels';
 
-import './HomePage.scss';
+import './TypePage.scss';
 import Product from '../Product/Product';
 
 import SidebarType from '../SidebarType/SidebarType';
 
-const HomePage = () => {
+const TypePage = () => {
+    window.scrollTo(0, 0);
     return (
         <>
             <div className="top-container">
-                <Carousels />
+                <h1>Type page</h1>
             </div>
             <div className="bot-container">
                 <div className="side-nav">
@@ -24,4 +24,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default TypePage;

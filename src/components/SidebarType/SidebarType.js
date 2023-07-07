@@ -1,14 +1,14 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link, useNavigate } from 'react-router-dom';
-import './SidebarHome.scss';
+import './SidebarType.scss';
 
-const SidebarHome = (props) => {
+const SidebarType = (props) => {
     const navigate = useNavigate();
     return (
         <Sidebar>
             <Menu>
                 <SubMenu label="Áo">
-                    <MenuItem> Áo thun </MenuItem>
+                    <MenuItem onClick={() => navigate('/typepage')}>Áo thun</MenuItem>
                     <MenuItem> Áo khoác </MenuItem>
                     <MenuItem> Áo Polo </MenuItem>
                     <MenuItem>Áo sơ mi</MenuItem>
@@ -35,4 +35,4 @@ const SidebarHome = (props) => {
     );
 };
 
-export default SidebarHome;
+export default SidebarType;

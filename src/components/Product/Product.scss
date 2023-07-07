@@ -1,0 +1,20 @@
+.product-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-more {
+    display: flex;
+    justify-content: center;
+    button {
+        margin-top: 40px;
+        border: none;
+        background-color: transparent;
+    }
+}
+
+.paginate-container {
+    display: flex;
+    justify-content: center;
+}

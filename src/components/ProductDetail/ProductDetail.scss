@@ -1,0 +1,103 @@
+.detail-container {
+    display: flex;
+    min-height: 600px;
+}
+.left-container {
+    display: flex;
+    flex: 1;
+    background-color: rgba(128, 128, 128, 0.137);
+    justify-content: center;
+    padding: 50px;
+    .preview-image-detail {
+        width: 100%;
+    }
+}
+.right-container {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    padding: 50px;
+    // background-color: green;
+    .size {
+        display: flex;
+        gap: 50px;
+        .size-detail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(255, 255, 255);
+            width: 40px;
+            height: 40px;
+            &:hover {
+                background-color: rgba(128, 128, 128, 0.199);
+                cursor: pointer;
+            }
+        }
+        .checked-size {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(255, 255, 255);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(37, 31, 31, 0.473);
+        }
+        .form-check {
+            width: 50px;
+            height: 50px;
+            .form-check-input[type='radio'] {
+                visibility: hidden;
+            }
+        }
+        .size-choose {
+            background-color: gray;
+        }
+    }
+    .quantity {
+        .quantity-action {
+            width: 20%;
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+        input {
+            text-align: center;
+        }
+        button {
+            min-width: 30px;
+            height: 30px;
+            border: none;
+            &:hover {
+                background-color: rgba(128, 128, 128, 0.199);
+                cursor: pointer;
+            }
+        }
+    }
+
+    .actions {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        .back-btn {
+            border: none;
+            background-color: transparent;
+            height: 40px;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        .add-to-card-btn {
+            border: none;
+            background-color: rgba(255, 0, 0, 0.452);
+            height: 40px;
+            &:hover {
+                background-color: rgba(255, 0, 0, 0.24);
+                cursor: pointer;
+            }
+        }
+    }
+}
