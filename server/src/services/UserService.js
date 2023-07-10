@@ -144,7 +144,6 @@ const updateUser = (userId, data) => {
             }
 
             const updateUser = await User.findByIdAndUpdate(userId, data, { new: true });
-            console.log(updateUser);
 
             resolve({
                 status: 'OK',
@@ -152,7 +151,7 @@ const updateUser = (userId, data) => {
                 data: updateUser,
             });
         } catch (e) {
-            reject({ status: 'OK', message: 'User Id not found' });
+            reject({ status: 'OK', message: 'ERROR' });
         }
     });
 };
