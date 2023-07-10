@@ -90,4 +90,96 @@ const loginUser = (user) => {
     });
 };
 
-module.exports = { createUser, loginUser };
+const getUser = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUserId = await User.findOne({
+                _id: userId,
+            });
+            if (checkUserId === null) {
+                resolve({
+                    status: 'OK',
+                    message: 'user not found',
+                });
+            }
+
+            resolve({
+                status: 'OK',
+                message: 'SUCCESS',
+                user: checkUserId,
+            });
+        } catch (e) {
+            reject({ status: 'OK', message: 'User Id not found' });
+        }
+    });
+};
+
+const getAllUsers = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const users = await User.find();
+            console.log(users);
+            resolve({
+                message: 'SUCCESS',
+                status: 'OK',
+                users: users,
+            });
+        } catch (e) {
+            reject({ status: 'OK', message: 'ERROR' });
+        }
+    });
+};
+
+const updateUser = (userId, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUserId = await User.findOne({
+                _id: userId,
+            });
+            if (checkUserId === null) {
+                resolve({
+                    status: 'OK',
+                    message: 'user not found',
+                });
+            }
+
+            const updateUser = await User.findByIdAndUpdate(userId, data, { new: true });
+            console.log(updateUser);
+
+            resolve({
+                status: 'OK',
+                message: 'Updated',
+                data: updateUser,
+            });
+        } catch (e) {
+            reject({ status: 'OK', message: 'User Id not found' });
+        }
+    });
+};
+
+const deleteUser = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUserId = await User.findOne({
+                _id: userId,
+            });
+            if (checkUserId === null) {
+                resolve({
+                    status: 'OK',
+                    message: 'user not found',
+                });
+            }
+
+            await User.findByIdAndDelete(userId);
+
+            resolve({
+                status: 'OK',
+                message: 'Deleted ' + checkUserId.name,
+            });
+        } catch (e) {
+            reject({ status: 'OK', message: 'User Id not found' });
+        }
+    });
+};
+
+module.exports = { createUser, loginUser, updateUser, deleteUser, getUser, getAllUsers };

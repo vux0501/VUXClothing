@@ -60,4 +60,71 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { createUser, loginUser };
+const getUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        if (!userId) {
+            return res.status(200).json({
+                message: 'userId not found',
+            });
+        }
+
+        const response = await UserSevice.getUser(userId);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error,
+        });
+    }
+};
+
+const getAllUsers = async (req, res) => {
+    try {
+        const response = await UserSevice.getAllUsers();
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error,
+        });
+    }
+};
+
+const updateUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const data = req.body;
+        if (!userId) {
+            return res.status(200).json({
+                message: 'userId not found',
+            });
+        }
+        const response = await UserSevice.updateUser(userId, data);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error,
+        });
+    }
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        if (!userId) {
+            return res.status(200).json({
+                message: 'userId not found',
+            });
+        }
+
+        const response = await UserSevice.deleteUser(userId);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error,
+        });
+    }
+};
+
+module.exports = { createUser, loginUser, updateUser, deleteUser, getUser, getAllUsers };
