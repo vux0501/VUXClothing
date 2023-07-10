@@ -36,14 +36,20 @@ const createProduct = (newProduct) => {
     });
 };
 
-const getAllProduct = () => {
+const getAllProduct = (limit, page) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const products = await Product.find();
+            const totalProduct = await Product.count();
+            const products = await Product.find()
+                .limit(limit)
+                .skip(page * limit);
             resolve({
                 message: 'SUCCESS',
                 status: 'OK',
                 products: products,
+                totalProduct: totalProduct,
+                pageCurrent: +page + 1,
+                totalPage: Math.ceil(totalProduct / limit),
             });
         } catch (e) {
             reject({});

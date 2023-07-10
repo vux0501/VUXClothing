@@ -114,15 +114,21 @@ const getUser = (userId) => {
     });
 };
 
-const getAllUsers = () => {
+const getAllUsers = (limit, page) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const users = await User.find();
+            const totalUser = await User.count();
+            const users = await User.find()
+                .limit(limit)
+                .skip(page * limit);
             console.log(users);
             resolve({
                 message: 'SUCCESS',
                 status: 'OK',
                 users: users,
+                totalUser: totalUser,
+                currentPage: +page + 1,
+                totalPage: Math.ceil(totalUser / limit),
             });
         } catch (e) {
             reject({ status: 'OK', message: 'ERROR' });
