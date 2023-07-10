@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema(
         description: { type: String, required: true },
     },
     {
-        timeStamp: true,
+        timestamps: true,
     },
 );
 

@@ -36,13 +36,48 @@ const createProduct = (newProduct) => {
     });
 };
 
-const getAllProduct = (limit, page) => {
+const getAllProduct = (limit, page, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const totalProduct = await Product.count();
+            //filter
+            if (filter) {
+                const type = filter[0];
+                const productsFilter = await Product.find({ [filter[0]]: { $regex: filter[1] } })
+                    .limit(limit)
+                    .skip(page * limit);
+                resolve({
+                    message: 'SUCCESS',
+                    status: 'OK',
+                    products: productsFilter,
+                    totalProduct: totalProduct,
+                    pageCurrent: +page + 1,
+                    totalPage: Math.ceil(totalProduct / limit),
+                });
+            }
+            //sort
+            if (sort) {
+                const objectSort = {};
+                objectSort[sort[0]] = sort[1];
+
+                const productsSort = await Product.find()
+                    .limit(limit)
+                    .skip(page * limit)
+                    .sort(objectSort);
+                resolve({
+                    message: 'SUCCESS',
+                    status: 'OK',
+                    products: productsSort,
+                    totalProduct: totalProduct,
+                    pageCurrent: +page + 1,
+                    totalPage: Math.ceil(totalProduct / limit),
+                });
+            }
+
             const products = await Product.find()
                 .limit(limit)
                 .skip(page * limit);
+
             resolve({
                 message: 'SUCCESS',
                 status: 'OK',
