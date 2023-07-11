@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv');
@@ -13,6 +14,8 @@ app.get('/', (req, res) => {
     return res.send('hello');
 });
 
+//cors
+app.use(cors());
 //bodyParser
 app.use(bodyParser.json());
 //routes
