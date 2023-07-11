@@ -56,14 +56,16 @@ const loginUser = (user) => {
 
             if (checkUserEmail === null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
+                    type: 1,
                     message: 'The user is not defined',
                 });
             }
             const comparePassword = bcrypt.compareSync(password, checkUserEmail.password);
             if (!comparePassword) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
+                    type: 2,
                     message: 'Password incorrect',
                 });
             }
