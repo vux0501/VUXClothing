@@ -3,7 +3,7 @@ const JwtSevice = require('../services/JwtService');
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, password, confirmPassword, phone, avatar } = req.body;
+        const { email, name, phone, password, confirmPassword, avatar } = req.body;
         const reg =
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         const isCheckEmail = reg.test(email);
@@ -11,17 +11,17 @@ const createUser = async (req, res) => {
         if (!name || !email || !password || !confirmPassword || !phone) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is required.',
+                message: 'Vui lòng nhập đầy đủ trường dữ liệu!',
             });
         } else if (!isCheckEmail) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is email.',
+                message: 'Email không đúng định dạng.',
             });
         } else if (password !== confirmPassword) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The password is equal to the Confirm Password',
+                message: 'Mật khẩu và Mật khẩu nhập lại không khớp.',
             });
         }
 
