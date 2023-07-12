@@ -57,16 +57,14 @@ const loginUser = (user) => {
             if (checkUserEmail === null) {
                 resolve({
                     status: 'ERR',
-                    type: 1,
-                    message: 'The user is not defined',
+                    message: 'Email chưa được đăng ký.',
                 });
             }
             const comparePassword = bcrypt.compareSync(password, checkUserEmail.password);
             if (!comparePassword) {
                 resolve({
                     status: 'ERR',
-                    type: 2,
-                    message: 'Password incorrect',
+                    message: 'Sai mật khẩu',
                 });
             }
 
@@ -84,7 +82,6 @@ const loginUser = (user) => {
                 message: 'OK',
                 access_token: access_token,
                 refresh_token: refresh_token,
-                user: checkUserEmail,
             });
         } catch (e) {
             reject({});
@@ -111,7 +108,7 @@ const getUser = (userId) => {
                 user: checkUserId,
             });
         } catch (e) {
-            reject({ status: 'OK', message: 'User Id not found' });
+            reject({ status: 'ERR', message: 'User Id not found' });
         }
     });
 };

@@ -30,18 +30,13 @@ const Login = () => {
         }
         let data = await postLogin(email, password);
 
-        if (data && data.status === 'ERR' && +data.type === 1) {
-            toast.error('Tên đăng nhập không tồn tại');
-        }
-        if (data && data.status === 'ERR' && +data.type === 2) {
-            toast.error('Sai mật khẩu');
+        if (data && data.status === 'ERR') {
+            toast.error(data.message);
+            return;
         }
 
-        if (data && data.status === 'OK') {
-            console.log(data);
-            toast.success(`Chào mừng bạn ${data.user.name}`);
-            navigate('/');
-        }
+        toast.success(`Hi friend`);
+        navigate('/');
     };
 
     return (

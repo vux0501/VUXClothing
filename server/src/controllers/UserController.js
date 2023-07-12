@@ -43,16 +43,17 @@ const loginUser = async (req, res) => {
         if (!email || !password) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is required.',
+                message: 'Vui lòng nhập đủ các trường dữ liệu.',
             });
         } else if (!isCheckEmail) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is email.',
+                message: 'Email không đúng định dạng.',
             });
         }
 
         const response = await UserSevice.loginUser(req.body);
+
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
