@@ -26,6 +26,7 @@ const createUser = async (req, res) => {
         }
 
         const response = await UserSevice.createUser(req.body);
+
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
@@ -53,8 +54,12 @@ const loginUser = async (req, res) => {
         }
 
         const response = await UserSevice.loginUser(req.body);
-
-        return res.status(200).json(response);
+        const { refresh_token, ...newResponse } = response;
+        res.cookie('refresh_token', refresh_token, {
+            HttpOnly: true,
+            Secure: true,
+        });
+        return res.status(200).json(newResponse);
     } catch (error) {
         return res.status(404).json({
             message: error,
@@ -64,7 +69,8 @@ const loginUser = async (req, res) => {
 
 const refreshToken = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.refresh_token;
+        console.log(req.cookies);
 
         if (!token) {
             return res.status(200).json({

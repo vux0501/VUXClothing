@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const routes = require('./routes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -18,6 +19,8 @@ app.get('/', (req, res) => {
 app.use(cors());
 //bodyParser
 app.use(bodyParser.json());
+//cookieParser
+app.use(cookieParser());
 //routes
 routes(app);
 

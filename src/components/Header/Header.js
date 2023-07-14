@@ -10,10 +10,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 
 import './Header.scss';
+import { useSelector } from 'react-redux';
+import { Image } from 'react-bootstrap';
 
 const Header = () => {
+    const user = useSelector((state) => state.user);
+
     return (
-        <Navbar expand="lg" className="bg-body-tertiary" bg="light" data-bs-theme="light">
+        <Navbar fixed="top" expand="lg" className="bg-body-tertiary" bg="light" data-bs-theme="light">
             <Container className="d-flex header-container">
                 <NavLink to="/" className="px-4 navbar-brand ">
                     VUX.clt
@@ -44,9 +48,17 @@ const Header = () => {
                             <p className="cart-count">0</p>
                             <AiOutlineShoppingCart />
                         </NavLink>
-                        <NavLink to="/login" className="px-4 nav-link">
-                            <AiOutlineUser />
-                        </NavLink>
+                        {user?.avatar ? (
+                            <NavLink to="/login" className="px-4 nav-link">
+                                <div>
+                                    <Image className="avatar" src={user.avatar} roundedCircle />
+                                </div>
+                            </NavLink>
+                        ) : (
+                            <NavLink to="/login" className="px-4 nav-link">
+                                <AiOutlineUser />
+                            </NavLink>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -4,7 +4,7 @@ dotenv.config();
 const generalAccessToken = async (payload) => {
     const access_token = jwt.sign(
         {
-            payload,
+            ...payload,
         },
         process.env.ACCESS_TOKEN_SECRET_KEY,
         {
@@ -17,7 +17,7 @@ const generalAccessToken = async (payload) => {
 const generalRefreshToken = async (payload) => {
     const refresh_token = jwt.sign(
         {
-            payload,
+            ...payload,
         },
         process.env.FRESH_TOKEN_SECRET_KEY,
         {

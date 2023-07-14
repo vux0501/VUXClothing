@@ -15,4 +15,8 @@ const postRegister = (email, name, phone, password, confirmPassword) => {
     });
 };
 
-export { postLogin, postRegister };
+const getDetailUser = (id) => {
+    return axios.get(`/user/get-detail-user/${id}`);
+};
+
+export { postLogin, postRegister, getDetailUser };
