@@ -56,8 +56,10 @@ const loginUser = async (req, res) => {
         const response = await UserSevice.loginUser(req.body);
         const { refresh_token, ...newResponse } = response;
         res.cookie('refresh_token', refresh_token, {
-            HttpOnly: true,
-            Secure: true,
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict',
+            path: '/',
         });
         return res.status(200).json(newResponse);
     } catch (error) {
@@ -68,9 +70,9 @@ const loginUser = async (req, res) => {
 };
 
 const refreshToken = async (req, res) => {
+    console.log('aa', req.cookies.refresh_token);
     try {
         const token = req.cookies.refresh_token;
-        console.log(req.cookies);
 
         if (!token) {
             return res.status(200).json({

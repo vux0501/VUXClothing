@@ -18,5 +18,8 @@ const postRegister = (email, name, phone, password, confirmPassword) => {
 const getDetailUser = (id) => {
     return axios.get(`/user/get-detail-user/${id}`);
 };
+const refreshToken = () => {
+    return axios.post(`/user/refresh-token`, { withCredentials: true });
+};
 
-export { postLogin, postRegister, getDetailUser };
+export { postLogin, postRegister, getDetailUser, refreshToken };

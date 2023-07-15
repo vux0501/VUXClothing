@@ -7,7 +7,8 @@ import { getDetailUser, postLogin } from '../../services/AuthServices';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { updateUser } from '../../redux/slides/userSlice';
+import { updateAccessToken, updateUser } from '../../redux/slides/userSlice';
+import { store } from '../../redux/store';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -23,12 +24,6 @@ const Login = () => {
             .match(
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             );
-    };
-
-    const handleGetDetailUser = async (id, token) => {
-        let res = await getDetailUser(id, token);
-        dispatch(updateUser({ ...res.user, access_token: token }));
-        toast.success(`Hi ${res.user.name}`);
     };
 
     const handleLogin = async () => {
@@ -47,12 +42,9 @@ const Login = () => {
 
         localStorage.setItem('access_token', data?.access_token);
         if (data?.access_token) {
-            const decoded = jwt_decode(data?.access_token);
-            if (decoded?.id) {
-                handleGetDetailUser(decoded.id, data.access_token);
-            }
+            dispatch(updateAccessToken({ access_token: data?.access_token }));
+            // dispatch(updateUser());
         }
-
         navigate('/');
     };
 

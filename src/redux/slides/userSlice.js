@@ -7,6 +7,7 @@ const initialState = {
     avatar: '',
     isAdmin: '',
     phone: '',
+    isLogin: false,
 };
 
 export const userSlice = createSlice({
@@ -14,7 +15,8 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         updateUser: (state, action) => {
-            const { name, email, avatar, isAdmin, phone, access_token } = action.payload;
+            if (!action.payload) return;
+            const { name, email, avatar, isAdmin, phone } = action.payload;
 
             //chua co accesstoken
             state.name = name;
@@ -22,12 +24,16 @@ export const userSlice = createSlice({
             state.phone = phone;
             state.email = email;
             state.avatar = avatar;
+        },
+        updateAccessToken: (state, action) => {
+            const { access_token } = action.payload;
+            if (access_token) state.isLogin = true;
             state.access_token = access_token;
         },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateUser } = userSlice.actions;
+export const { updateUser, updateAccessToken } = userSlice.actions;
 
 export default userSlice.reducer;
