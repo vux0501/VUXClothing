@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,14 +7,46 @@ import Button from 'react-bootstrap/Button';
 import { CiSearch } from 'react-icons/ci';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
 import { NavLink, useNavigate } from 'react-router-dom';
-import Badge from 'react-bootstrap/Badge';
+import { resetUser } from '../../redux/slides/userSlice';
 
 import './Header.scss';
-import { useSelector } from 'react-redux';
-import { Image } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Image, OverlayTrigger, Popover } from 'react-bootstrap';
+import { logoutUser } from '../../services/AuthServices';
 
 const Header = () => {
     const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        await logoutUser();
+        dispatch(resetUser());
+        localStorage.removeItem('access_token');
+    };
+
+    const popoverClickRootClose = (
+        <Popover className="popover-container" id="popover-trigger-click-root-close">
+            <div className="popover-content">
+                <div className="popover-action" onClick={() => navigate('/info')}>
+                    Thông tin cá nhân
+                </div>
+                {user.isAdmin ? (
+                    <div className="popover-action">Quản lý cửa hàng</div>
+                ) : (
+                    <div className="popover-action">Giỏ hàng</div>
+                )}
+                <div className="popover-action">Đổi mật khẩu</div>
+                <div
+                    className="popover-action"
+                    onClick={() => {
+                        handleLogout();
+                    }}
+                >
+                    Đăng xuất
+                </div>
+            </div>
+        </Popover>
+    );
 
     return (
         <Navbar fixed="top" expand="lg" className="bg-body-tertiary" bg="light" data-bs-theme="light">
@@ -49,11 +81,14 @@ const Header = () => {
                             <AiOutlineShoppingCart />
                         </NavLink>
                         {user?.avatar ? (
-                            <NavLink to="/login" className="px-4 nav-link">
-                                <div>
-                                    <Image className="avatar" src={user.avatar} roundedCircle />
-                                </div>
-                            </NavLink>
+                            <OverlayTrigger
+                                trigger="click"
+                                rootClose
+                                placement="bottom"
+                                overlay={popoverClickRootClose}
+                            >
+                                <Image className="avatar mt-2 " src={user.avatar} roundedCircle />
+                            </OverlayTrigger>
                         ) : (
                             <NavLink to="/login" className="px-4 nav-link">
                                 <AiOutlineUser />

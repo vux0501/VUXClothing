@@ -22,4 +22,12 @@ const refreshToken = () => {
     return axios.post(`/user/refresh-token`, { withCredentials: true });
 };
 
-export { postLogin, postRegister, getDetailUser, refreshToken };
+const logoutUser = () => {
+    return axios.post(`/user/logout`);
+};
+
+const putUpdateUser = (id, name, phone) => {
+    return axios.put(`/user/update-user/${id}`, { name: name, phone: phone });
+};
+
+export { postLogin, postRegister, getDetailUser, refreshToken, logoutUser, putUpdateUser };

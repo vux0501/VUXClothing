@@ -1,0 +1,21 @@
+.gradient-custom {
+    background: radial-gradient(circle at 18.7% 37.8%, rgb(250, 250, 250) 0%, rgb(225, 234, 238) 90%);
+}
+
+.card {
+    height: 100%;
+}
+
+.btn-update {
+    border: none;
+    padding: 10px;
+    &:hover {
+        background-color: rgba(128, 128, 128, 0.26);
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -14,6 +14,7 @@ import Career from './components/Career/Career';
 import About from './components/About/About';
 import TypePage from './components/TypePage/TypePage';
 import ProductDetail from './components/ProductDetail/ProductDetail';
+import InfoUser from './components/InfoUser/InfoUser';
 
 const Layout = (props) => {
     return (
@@ -27,6 +28,7 @@ const Layout = (props) => {
                     <Route path="event" element={<Event />} />
                     <Route path="career" element={<Career />} />
                     <Route path="about" element={<About />} />
+                    <Route path="info" element={<InfoUser />} />
                 </Route>
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
