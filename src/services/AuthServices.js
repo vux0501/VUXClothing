@@ -26,8 +26,15 @@ const logoutUser = () => {
     return axios.post(`/user/logout`);
 };
 
-const putUpdateUser = (id, name, phone) => {
-    return axios.put(`/user/update-user/${id}`, { name: name, phone: phone });
+const putUpdateUser = (id, name, phone, fileName, fileType, resultConvertImage) => {
+    return axios.post(`/user/update-user`, {
+        id: id,
+        name: name,
+        phone: phone,
+        fileName: fileName,
+        fileType: fileType,
+        resultConvertImage: resultConvertImage,
+    });
 };
 
 export { postLogin, postRegister, getDetailUser, refreshToken, logoutUser, putUpdateUser };

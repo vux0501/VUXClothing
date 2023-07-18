@@ -35,6 +35,7 @@ const createUser = async (req, res) => {
     }
 };
 const loginUser = async (req, res) => {
+    console.log(req.body);
     try {
         const { email, password } = req.body;
         const reg =
@@ -134,9 +135,10 @@ const getAllUsers = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+    console.log(req.body);
     try {
-        const userId = req.params.id;
         const data = req.body;
+        const userId = data.id;
         if (!userId) {
             return res.status(200).json({
                 message: 'userId not found',

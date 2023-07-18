@@ -19,3 +19,27 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px;
+    .img-preview {
+        width: 150px;
+        height: 150px;
+        border: 1px dashed #ccc;
+        border-radius: 5px;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ccc;
+
+        img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+    }
+}

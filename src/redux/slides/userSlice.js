@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    id: '',
+    _id: '',
     name: '',
     email: '',
     access_token: '',
@@ -17,16 +17,20 @@ export const userSlice = createSlice({
     reducers: {
         updateUser: (state, action) => {
             if (!action.payload) return;
-            const { _id, name, email, avatar, isAdmin, phone } = action.payload;
+            // const { _id } = action.payload;
 
             //chua co accesstoken
 
-            state.id = _id ?? state.id;
-            state.name = name ?? state.name;
-            state.isAdmin = isAdmin ?? state.isAdmin;
-            state.phone = phone ?? state.phone;
-            state.email = email ?? state.email;
-            state.avatar = avatar ?? state.avatar;
+            // state.id = _id;
+            // state.name = name ?? state.name;
+            // state.isAdmin = isAdmin ?? state.isAdmin;
+            // state.phone = phone ?? state.phone;
+            // state.email = email ?? state.email;
+            // state.avatar = avatar ?? state.avatar;
+            return {
+                ...state,
+                ...action.payload,
+            };
         },
         resetUser: (state) => {
             //chua co accesstoken

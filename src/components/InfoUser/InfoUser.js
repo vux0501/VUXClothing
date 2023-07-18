@@ -12,6 +12,7 @@ import {
     MDBIcon,
     MDBModalFooter,
     MDBInputGroup,
+    MDBFile,
 } from 'mdb-react-ui-kit';
 import {
     MDBBtn,
@@ -27,14 +28,41 @@ import './InfoUser.scss';
 import { toast } from 'react-toastify';
 import { putUpdateUser } from '../../services/AuthServices';
 import { updateUser } from '../../redux/slides/userSlice';
+import { Image } from 'react-bootstrap';
 
 const InfoUser = () => {
+    console.log(process.env.REACT_APP_API_URL);
+
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const [optSmModal, setOptSmModal] = useState(false);
     const toggleShow = () => setOptSmModal(!optSmModal);
     const [name, setName] = useState(user.name);
     const [phone, setPhone] = useState(user.phone);
+
+    //image
+    const [fileName, setFileName] = useState('');
+    const [fileType, setFileType] = useState('');
+    const [profileImage, setProfileImage] = useState(user.avatar);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Avatar
+    const handleImageChange = (e) => {
+        const name = e.target.files[0].name;
+        const lastDot = name.lastIndexOf('.');
+
+        const fileName = name.substring(0, lastDot);
+        const fileType = name.substring(lastDot + 1);
+        setFileName(fileName);
+        setFileType(fileType);
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onloadend = () => {
+            setProfileImage(reader.result);
+        };
+    };
+
     useEffect(() => {}, [user]);
 
     const validatePhone = (phone) => {
@@ -51,14 +79,15 @@ const InfoUser = () => {
             return;
         }
 
-        const data = await putUpdateUser(user.id, name, phone);
+        const data = await putUpdateUser(user._id, name, phone, fileName, fileType, profileImage);
+
         if (data && data.status === 'ERR') {
             toast.error(data.message);
         }
 
         if (data && data.status === 'OK') {
             toast.success('Cập nhập thông tin thành công!');
-            dispatch(updateUser({ name, phone }));
+            dispatch(updateUser({ name, phone, avatar: profileImage }));
             toggleShow();
         }
     };
@@ -158,6 +187,21 @@ const InfoUser = () => {
                                     onChange={(event) => setPhone(event.target.value)}
                                 />
                             </MDBInputGroup>
+                            <MDBFile
+                                label="Ảnh đại diện"
+                                id="customFile"
+                                accept="image/png, image/jpeg"
+                                onChange={handleImageChange}
+                            />
+                            <div className="avatar-container">
+                                <div className="img-preview">
+                                    {profileImage ? (
+                                        <Image src={profileImage} roundedCircle />
+                                    ) : (
+                                        <span>Preview Image</span>
+                                    )}
+                                </div>
+                            </div>
                         </MDBModalBody>
                         <MDBModalFooter>
                             <button className="btn-update" onClick={() => handleUpdate()}>

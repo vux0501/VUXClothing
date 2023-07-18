@@ -148,7 +148,7 @@ const updateUser = (userId, data) => {
                 });
             }
 
-            const updateUser = await User.findByIdAndUpdate(userId, data, { new: true });
+            const updateUser = await User.findByIdAndUpdate(userId, { ...data, avatar: data.url }, { new: true });
 
             resolve({
                 status: 'OK',
