@@ -95,14 +95,15 @@ const InfoUser = () => {
     return (
         <>
             <section className="py-4" style={{ backgroundColor: '#f4f5f7' }}>
-                <MDBContainer
-                    className="py-5 h-100"
-                    onClick={() => {
-                        toggleShow();
-                    }}
-                >
+                <MDBContainer className="py-5 h-100">
                     <MDBRow className="justify-content-center align-items-center h-100">
-                        <MDBCol lg="6" className="mb-4 mb-lg-0">
+                        <MDBCol
+                            lg="6"
+                            className="mb-4 mb-lg-0"
+                            onClick={() => {
+                                toggleShow();
+                            }}
+                        >
                             <MDBCard className="mb-3" style={{ borderRadius: '.5rem' }}>
                                 <MDBRow className="g-0">
                                     <MDBCol

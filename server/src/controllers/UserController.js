@@ -35,7 +35,6 @@ const createUser = async (req, res) => {
     }
 };
 const loginUser = async (req, res) => {
-    console.log(req.body);
     try {
         const { email, password } = req.body;
         const reg =
@@ -85,7 +84,6 @@ const logoutUser = async (req, res) => {
 };
 
 const refreshToken = async (req, res) => {
-    console.log('aa', req.cookies.refresh_token);
     try {
         const token = req.cookies.refresh_token;
 
@@ -135,7 +133,6 @@ const getAllUsers = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-    console.log(req.body);
     try {
         const data = req.body;
         const userId = data.id;

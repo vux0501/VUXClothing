@@ -120,7 +120,7 @@ const getAllUsers = (limit, page) => {
             const users = await User.find()
                 .limit(limit)
                 .skip(page * limit);
-            console.log(users);
+
             resolve({
                 message: 'SUCCESS',
                 status: 'OK',

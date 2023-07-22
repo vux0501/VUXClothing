@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import './ProductDetail.scss';
 import CarouselsDetail from './CarouselsDetail/CarouselsDetail';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ProductDetail = () => {
+    const location = useLocation();
+
+    const data = location.state.data;
+    const newPrice = data.price - (data.price * data.discountprice) / 100;
+
     window.scrollTo(0, 0);
     const navigate = useNavigate();
     const sizes = ['S', 'M', 'L', 'XL'];
@@ -15,6 +21,18 @@ const ProductDetail = () => {
             setQuantity(quantity - 1);
         }
     };
+    const handleAdditionQuantity = () => {
+        if (quantity < data.countInStock) {
+            setQuantity(quantity + 1);
+        } else {
+            toast.error(`Chỉ còn ${data.countInStock} sản phẩm này!`);
+        }
+    };
+
+    const handleAddToCard = (data) => {
+        const req = { idProduct: data._id, size, quantity };
+        console.log(req);
+    };
 
     return (
         <div className="detail-container">
@@ -24,15 +42,26 @@ const ProductDetail = () => {
                 </div>
             </div>
             <div className="right-container">
-                <h2>Túi Gucci nữ GC2001</h2>
+                <h2>{data.name}</h2>
                 <p className="mt-3">
-                    Thương hiệu: <b>Gucci</b>
+                    Thương hiệu: <b>{data.brand}</b>
                 </p>
                 <p>
-                    Tình trạng: <b>Còn hàng</b>
+                    Tình trạng:{' '}
+                    {data.countInStock === 0 ? <b>Tạm thời hết hàng</b> : <b>Còn {data.countInStock} chiếc</b>}
                 </p>
                 <h2>
-                    Giá thành: <b>21.000.000</b> VND
+                    Giá thành:{' '}
+                    {!data.discountprice || data.discountprice === 0 ? (
+                        <b>{data.price.toLocaleString('vi-VN')} VND</b>
+                    ) : (
+                        <div className="price-container">
+                            <s>
+                                {data.price.toLocaleString('vi-VN')} VND {''}
+                            </s>
+                            <b style={{ marginLeft: '12px' }}>{newPrice.toLocaleString('vi-VN')} VND</b>
+                        </div>
+                    )}
                 </h2>
 
                 <p className="mt-3">Kích thước</p>
@@ -65,7 +94,7 @@ const ProductDetail = () => {
                         />
                         <button
                             onClick={() => {
-                                setQuantity(quantity + 1);
+                                handleAdditionQuantity();
                             }}
                         >
                             +
@@ -77,7 +106,9 @@ const ProductDetail = () => {
                     <button onClick={() => navigate('/typepage')} className="back-btn">
                         Quay lại
                     </button>
-                    <button className="add-to-card-btn">Thêm vào giỏ hàng</button>
+                    <button className="add-to-card-btn" onClick={() => handleAddToCard(data)}>
+                        Thêm vào giỏ hàng
+                    </button>
                 </div>
             </div>
         </div>

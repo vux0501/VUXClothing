@@ -12,12 +12,6 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    // folder: 'VUX.clt',
-    // allowedFormats: ['jpg', 'png'],
-    // filename: function (req, file, cb) {
-    //     console.log(req.file);
-    //     cb(null, file.originalname);
-    // },
     params: {
         folder: (req, file) => 'VUX.clt',
         format: async (req, file) => ['jpg', 'png'], // supports promises as well

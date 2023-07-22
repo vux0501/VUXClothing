@@ -16,11 +16,7 @@ const authMiddleWare = (req, res, next) => {
             });
         }
 
-        if (
-            true
-            // user?.isAdmin
-            // || user?.id === userId
-        ) {
+        if (user?.isAdmin) {
             next();
         } else {
             return res.status(401).json({

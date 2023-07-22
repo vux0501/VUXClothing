@@ -11,8 +11,7 @@ router.post('/refresh-token', UserController.refreshToken);
 
 router.get('/getAllUsers', authMiddleWare, UserController.getAllUsers);
 router.get('/get-detail-user/:id', authMiddleWare, UserController.getUser);
-router.post('/update-user', authMiddleWare, CloudinaryController.uploadAvatar, UserController.updateUser);
-// router.post('/update-user', UserController.updateUser);
+router.post('/update-user', CloudinaryController.uploadAvatar, UserController.updateUser);
 router.delete('/delete-user/:id', authMiddleWare, UserController.deleteUser);
 
 module.exports = router;
