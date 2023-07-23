@@ -23,7 +23,7 @@ import { useSelector } from 'react-redux';
 
 const Layout = (props) => {
     const user = useSelector((state) => state.user);
-    console.log('check user:', user);
+
     return (
         <>
             <Routes>

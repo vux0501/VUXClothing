@@ -18,6 +18,10 @@ const postRegister = (email, name, phone, password, confirmPassword) => {
 const getDetailUser = (id) => {
     return axios.get(`/user/get-detail-user/${id}`);
 };
+const getAllUser = () => {
+    return axios.get(`/user/getAllUsers`);
+};
+
 const refreshToken = () => {
     return axios.post(`/user/refresh-token`, { withCredentials: true });
 };
@@ -37,4 +41,4 @@ const putUpdateUser = (id, name, phone, fileName, fileType, resultConvertImage) 
     });
 };
 
-export { postLogin, postRegister, getDetailUser, refreshToken, logoutUser, putUpdateUser };
+export { postLogin, postRegister, getDetailUser, refreshToken, logoutUser, putUpdateUser, getAllUser };
