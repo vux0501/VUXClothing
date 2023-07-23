@@ -13,6 +13,7 @@ import './Header.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Image, OverlayTrigger, Popover } from 'react-bootstrap';
 import { logoutUser } from '../../services/AuthServices';
+import { persistor } from '../../redux/store';
 
 const Header = () => {
     const user = useSelector((state) => state.user);
@@ -21,6 +22,8 @@ const Header = () => {
     const handleLogout = async () => {
         await logoutUser();
         dispatch(resetUser());
+        //khi dang xuat chua mat persist:root o localstorage
+        persistor.purge();
         localStorage.removeItem('access_token');
     };
 
@@ -31,7 +34,9 @@ const Header = () => {
                     Thông tin cá nhân
                 </div>
                 {user.isAdmin ? (
-                    <div className="popover-action">Quản lý cửa hàng</div>
+                    <div className="popover-action" onClick={() => navigate('/admin')}>
+                        Quản lý cửa hàng
+                    </div>
                 ) : (
                     <div className="popover-action">Giỏ hàng</div>
                 )}

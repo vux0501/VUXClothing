@@ -15,8 +15,15 @@ import About from './components/About/About';
 import TypePage from './components/TypePage/TypePage';
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import InfoUser from './components/InfoUser/InfoUser';
+import Admin from './components/Admin/Admin';
+import HomePageAdmin from './components/Admin/HomePageAdmin/HomePageAdmin';
+import ManageUser from './components/Admin/ManageUser/ManageUser';
+import ManageProduct from './components/Admin/ManageProduct/ManageProduct';
+import { useSelector } from 'react-redux';
 
 const Layout = (props) => {
+    const user = useSelector((state) => state.user);
+    console.log('check user:', user);
     return (
         <>
             <Routes>
@@ -32,6 +39,16 @@ const Layout = (props) => {
                 </Route>
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
+                {user.isAdmin ? (
+                    <Route path="admin" element={<Admin />}>
+                        <Route index element={<HomePageAdmin />} />
+                        <Route path="manage-user" element={<ManageUser />} />
+                        <Route path="manage-product" element={<ManageProduct />} />
+                    </Route>
+                ) : (
+                    <></>
+                )}
+
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <ToastContainer

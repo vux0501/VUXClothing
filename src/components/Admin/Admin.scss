@@ -1,0 +1,10 @@
+.admin-container {
+    display: flex;
+    .sidebar-left {
+        height: 100vh !important;
+    }
+    .content {
+        width: 100%;
+        padding: 10px;
+    }
+}
