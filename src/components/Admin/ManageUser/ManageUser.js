@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './ManageUser.scss';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getAllUser, getUserWithPaginate } from '../../../services/AuthServices';
-import { Button, Image, Modal, Spinner, Table } from 'react-bootstrap';
-import { GoPencil, GoTrash } from 'react-icons/go';
+import { getUserWithPaginate } from '../../../services/AuthServices';
+import { Spinner } from 'react-bootstrap';
+
 import DeleteUserModal from './DeleteUserModal/DeleteUserModal';
 import UpdateUserModal from './UpdateUserModal/UpdateUserModal';
 import TableUserPaginate from './TableUserPaginate/TableUserPaginate';
@@ -15,17 +14,25 @@ const ManageUser = () => {
 
     const [arrUsers, setArrUsers] = useState([]);
     const [pageCount, setPageCount] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState();
 
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        fetchListUsersWithPaginate(0);
-    }, []);
+    //sort
+    const [sortBy, setSortBy] = useState('createdAt');
+    const [sortType, setSortType] = useState(false);
 
-    const fetchListUsersWithPaginate = async (page) => {
+    //filter
+    const [filterBy, setFilterBy] = useState('name');
+    const [filterValue, setFilterValue] = useState('');
+
+    useEffect(() => {
+        fetchListUsersWithPaginate(0, sortBy, sortType ? 'asc' : 'desc');
+    }, [sortType]);
+
+    const fetchListUsersWithPaginate = async (page, sortBy, sortType) => {
         setIsLoading(true);
-        const res = await getUserWithPaginate(page, LIMIT_USER);
+        const res = await getUserWithPaginate(page, LIMIT_USER, sortBy, sortType);
         setIsLoading(false);
         if (res.status === 'OK') {
             setArrUsers(res.users);
@@ -64,6 +71,10 @@ const ManageUser = () => {
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
+                        sortBy={sortBy}
+                        sortType={sortType}
+                        setSortBy={setSortBy}
+                        setSortType={setSortType}
                     />
                 </div>
             </div>
@@ -74,6 +85,8 @@ const ManageUser = () => {
                 dataDelete={dataDelete}
                 fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                 setCurrentPage={setCurrentPage}
+                sortBy={sortBy}
+                sortType={sortType}
             />
             <UpdateUserModal
                 show={showUpdateUserModal}
@@ -81,6 +94,8 @@ const ManageUser = () => {
                 dataUpdate={dataUpdate}
                 fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                 setCurrentPage={setCurrentPage}
+                sortBy={sortBy}
+                sortType={sortType}
             />
         </div>
     );

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { deleteUser } from '../../../../services/AuthServices';
 
 const DeleteUserModal = (props) => {
-    const { show, setShow, dataDelete, fetchListUsersWithPaginate, setCurrentPage } = props;
+    const { show, setShow, dataDelete, fetchListUsersWithPaginate, setCurrentPage, sortBy, sortType } = props;
 
     const handleClose = () => setShow(false);
 
@@ -14,7 +14,7 @@ const DeleteUserModal = (props) => {
         if (data && data.status === 'OK') {
             toast.success(data.EM);
             handleClose();
-            await fetchListUsersWithPaginate(0);
+            await fetchListUsersWithPaginate(0, sortBy, sortType ? 'asc' : 'desc');
             setCurrentPage(0);
         }
         if (data && data.status !== 'OK') {

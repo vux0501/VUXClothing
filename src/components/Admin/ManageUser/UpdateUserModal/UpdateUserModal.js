@@ -6,7 +6,7 @@ import _ from 'lodash';
 import Spinner from 'react-bootstrap/Spinner';
 
 const UpdateUserModal = (props) => {
-    const { show, setShow, dataUpdate, fetchListUsersWithPaginate, setCurrentPage } = props;
+    const { show, setShow, dataUpdate, fetchListUsersWithPaginate, setCurrentPage, sortBy, sortType } = props;
     useEffect(() => {
         if (!_.isEmpty(dataUpdate)) {
             setEmail(dataUpdate.email);
@@ -68,7 +68,7 @@ const UpdateUserModal = (props) => {
         if (data && data.status === 'OK') {
             toast.success(data.EM);
             handleClose();
-            await fetchListUsersWithPaginate(0);
+            await fetchListUsersWithPaginate(0, sortBy, sortType ? 'asc' : 'desc');
             setCurrentPage(0);
         }
         if (data && data.status !== 'OK') {

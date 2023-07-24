@@ -22,7 +22,10 @@ const getAllUser = () => {
     return axios.get(`/user/getAllUsers`);
 };
 
-const getUserWithPaginate = (page, limit) => {
+const getUserWithPaginate = (page, limit, sortBy, sortType, filterBy, filterValue) => {
+    if (sortBy && sortType) {
+        return axios.get(`/user/getAllUsers?page=${page}&limit=${limit}&sort=${sortBy}&sort=${sortType}`);
+    }
     return axios.get(`/user/getAllUsers?page=${page}&limit=${limit}`);
 };
 

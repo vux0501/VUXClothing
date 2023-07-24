@@ -120,15 +120,15 @@ const getAllUsers = (limit, page, sort, filter) => {
 
             //filter
             if (filter) {
-                const type = filter[0];
                 const usersFilter = await User.find({ [filter[0]]: { $regex: filter[1] } })
                     .limit(limit)
                     .skip(page * limit);
+
                 resolve({
                     message: 'SUCCESS',
                     status: 'OK',
-                    products: usersFilter,
-                    totalProduct: totalUser,
+                    users: usersFilter,
+                    totalUser: totalUser,
                     pageCurrent: +page + 1,
                     totalPage: Math.ceil(totalUser / limit),
                 });
@@ -145,8 +145,8 @@ const getAllUsers = (limit, page, sort, filter) => {
                 resolve({
                     message: 'SUCCESS',
                     status: 'OK',
-                    products: productsSort,
-                    totalProduct: totalUser,
+                    users: productsSort,
+                    totalUser: totalUser,
                     pageCurrent: +page + 1,
                     totalPage: Math.ceil(totalUser / limit),
                 });

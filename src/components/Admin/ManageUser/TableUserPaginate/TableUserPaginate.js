@@ -1,8 +1,9 @@
-import React from 'react';
-import { Image, Table } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Form, Image, Table } from 'react-bootstrap';
 import { GoPencil, GoTrash } from 'react-icons/go';
 import ReactPaginate from 'react-paginate';
 import { useSelector } from 'react-redux';
+import './TableUserPaginate.scss';
 
 const TableUserPaginate = (props) => {
     const {
@@ -13,9 +14,14 @@ const TableUserPaginate = (props) => {
         pageCount,
         currentPage,
         setCurrentPage,
+        sortBy,
+        sortType,
+        setSortBy,
+        setSortType,
     } = props;
     const handlePageClick = (event) => {
-        fetchListUsersWithPaginate(+event.selected);
+        console.log(sortBy, sortType);
+        fetchListUsersWithPaginate(+event.selected, sortBy, sortType ? 'asc' : 'desc');
         setCurrentPage(+event.selected);
     };
     //chuyen doi dinh dang ngay
@@ -36,6 +42,45 @@ const TableUserPaginate = (props) => {
 
     return (
         <div>
+            <Form className="sort-filter-container">
+                <Form.Group className="mb-3" controlId="filter">
+                    <Form.Label>Tìm kiếm theo</Form.Label>
+                    <Form.Select
+                    // value={sortType}
+                    // onChange={(event) => {
+                    //     const newValue = event.target.value === 'true';
+                    //     setSortType(newValue);
+                    //     setCurrentPage(0);
+                    // }}
+                    >
+                        <option value={'email'}>Email</option>
+                        <option value={'name'}>Họ và Tên</option>
+                        <option value={'phone'}>Số điện thoại</option>
+                        <option value={'role'}>Vai trò</option>
+                    </Form.Select>
+                    <Form.Control
+                        type="text"
+                        // value={name}
+                        // onChange={(e) => setName(e.target.value)}
+                    />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="sort">
+                    <Form.Label>Sắp xếp (ngày tạo)</Form.Label>
+                    <Form.Select
+                        value={sortType}
+                        onChange={(event) => {
+                            const newValue = event.target.value === 'true';
+                            setSortType(newValue);
+                            setCurrentPage(0);
+                        }}
+                    >
+                        <option value={false}>Mới nhất &#8594; Cũ nhất</option>
+                        <option value={true}>Cũ nhất &#8594; Mới nhất</option>
+                    </Form.Select>
+                </Form.Group>
+            </Form>
+
             <Table striped bordered>
                 <thead>
                     <tr>
