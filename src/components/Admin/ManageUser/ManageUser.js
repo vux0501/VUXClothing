@@ -2,35 +2,51 @@ import React, { useEffect, useState } from 'react';
 import './ManageUser.scss';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getAllUser } from '../../../services/AuthServices';
-import { Image, Table } from 'react-bootstrap';
+import { getAllUser, getUserWithPaginate } from '../../../services/AuthServices';
+import { Button, Image, Modal, Spinner, Table } from 'react-bootstrap';
 import { GoPencil, GoTrash } from 'react-icons/go';
+import DeleteUserModal from './DeleteUserModal/DeleteUserModal';
+import UpdateUserModal from './UpdateUserModal/UpdateUserModal';
+import TableUserPaginate from './TableUserPaginate/TableUserPaginate';
 
 const ManageUser = () => {
+    const LIMIT_USER = 5;
     const navigate = useNavigate();
+
     const [arrUsers, setArrUsers] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
-        fetchAllUser();
+        fetchListUsersWithPaginate(0);
     }, []);
-    const fetchAllUser = async () => {
-        const res = await getAllUser();
 
-        setArrUsers(res.users);
-    };
-    console.log(arrUsers);
-
-    //chuyen doi dinh dang ngay
-    const convertDateFormat = (inputDate) => {
-        const dateParts = inputDate.split('-');
-        const day = dateParts[2];
-        const month = dateParts[1];
-        const year = dateParts[0];
-        return `${day}/${month}/${year}`;
+    const fetchListUsersWithPaginate = async (page) => {
+        setIsLoading(true);
+        const res = await getUserWithPaginate(page, LIMIT_USER);
+        setIsLoading(false);
+        if (res.status === 'OK') {
+            setArrUsers(res.users);
+            setPageCount(res.totalPage);
+        }
     };
 
-    const convertISODateToFormattedDate = (ISODate) => {
-        const dateWithoutTime = ISODate.split('T')[0];
-        return convertDateFormat(dateWithoutTime);
+    //delete
+    const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
+    const [dataDelete, setDataDelete] = useState({});
+    const handleClickBtnDelete = (user) => {
+        setShowDeleteUserModal(true);
+        setDataDelete(user);
+    };
+
+    //Update
+    const [showUpdateUserModal, setShowUpdateUserModal] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState({});
+    const handleClickBtnUpdate = (user) => {
+        setShowUpdateUserModal(true);
+        setDataUpdate(user);
     };
 
     return (
@@ -39,54 +55,33 @@ const ManageUser = () => {
                 <h3>Quản lý tài khoản</h3>
             </div>
             <div className="content">
-                <div className="btn-add-user">Thêm tài khoản admin</div>
                 <div className="table">
-                    <Table striped bordered>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Họ và tên</th>
-                                <th>Ngày tạo</th>
-                                <th>Vai trò</th>
-                                <th>Avatar</th>
-                                <th>Chức năng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {arrUsers.map((user, index) => {
-                                return (
-                                    <tr>
-                                        <td>{index + 1}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.phone}</td>
-                                        <td>{user.name}</td>
-                                        <td>{convertISODateToFormattedDate(user.createdAt)}</td>
-                                        <td>{user.isAdmin ? 'ADMIN' : 'USER'}</td>
-                                        <td>
-                                            <Image
-                                                src={user.avatar}
-                                                style={{
-                                                    width: '50px',
-                                                    height: '50px',
-                                                    objectFit: 'cover',
-                                                    margin: 'auto',
-                                                }}
-                                                roundedCircle
-                                            />
-                                        </td>
-                                        <td className="action-btn">
-                                            <GoPencil className="edit-btn" />
-                                            <GoTrash className="delete-btn" />
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </Table>
+                    <TableUserPaginate
+                        arrUsers={arrUsers}
+                        handleClickBtnUpdate={handleClickBtnUpdate}
+                        handleClickBtnDelete={handleClickBtnDelete}
+                        fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        pageCount={pageCount}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                    />
                 </div>
             </div>
+            {isLoading ? <Spinner animation="border" /> : <></>}
+            <DeleteUserModal
+                show={showDeleteUserModal}
+                setShow={setShowDeleteUserModal}
+                dataDelete={dataDelete}
+                fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                setCurrentPage={setCurrentPage}
+            />
+            <UpdateUserModal
+                show={showUpdateUserModal}
+                setShow={setShowUpdateUserModal}
+                dataUpdate={dataUpdate}
+                fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                setCurrentPage={setCurrentPage}
+            />
         </div>
     );
 };

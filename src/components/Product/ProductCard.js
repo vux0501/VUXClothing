@@ -10,8 +10,6 @@ const ProductCard = (props) => {
     const data = props.data;
     const newPrice = data.price - (data.price * data.discountprice) / 100;
 
-    console.log('new:', data);
-
     return (
         <Card
             style={{ width: '22rem' }}

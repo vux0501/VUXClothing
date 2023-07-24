@@ -22,6 +22,10 @@ const getAllUser = () => {
     return axios.get(`/user/getAllUsers`);
 };
 
+const getUserWithPaginate = (page, limit) => {
+    return axios.get(`/user/getAllUsers?page=${page}&limit=${limit}`);
+};
+
 const refreshToken = () => {
     return axios.post(`/user/refresh-token`, { withCredentials: true });
 };
@@ -30,7 +34,7 @@ const logoutUser = () => {
     return axios.post(`/user/logout`);
 };
 
-const putUpdateUser = (id, name, phone, fileName, fileType, resultConvertImage) => {
+const putUpdateUser = (id, name, phone, fileName, fileType, resultConvertImage, isAdmin) => {
     return axios.post(`/user/update-user`, {
         id: id,
         name: name,
@@ -38,7 +42,22 @@ const putUpdateUser = (id, name, phone, fileName, fileType, resultConvertImage) 
         fileName: fileName,
         fileType: fileType,
         resultConvertImage: resultConvertImage,
+        isAdmin: isAdmin,
     });
 };
 
-export { postLogin, postRegister, getDetailUser, refreshToken, logoutUser, putUpdateUser, getAllUser };
+const deleteUser = (id) => {
+    return axios.delete(`user/delete-user/${id}`);
+};
+
+export {
+    postLogin,
+    postRegister,
+    getDetailUser,
+    refreshToken,
+    logoutUser,
+    putUpdateUser,
+    getAllUser,
+    deleteUser,
+    getUserWithPaginate,
+};

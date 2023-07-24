@@ -113,10 +113,45 @@ const getUser = (userId) => {
     });
 };
 
-const getAllUsers = (limit, page) => {
+const getAllUsers = (limit, page, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const totalUser = await User.count();
+
+            //filter
+            if (filter) {
+                const type = filter[0];
+                const usersFilter = await User.find({ [filter[0]]: { $regex: filter[1] } })
+                    .limit(limit)
+                    .skip(page * limit);
+                resolve({
+                    message: 'SUCCESS',
+                    status: 'OK',
+                    products: usersFilter,
+                    totalProduct: totalUser,
+                    pageCurrent: +page + 1,
+                    totalPage: Math.ceil(totalUser / limit),
+                });
+            }
+            //sort
+            if (sort) {
+                const objectSort = {};
+                objectSort[sort[0]] = sort[1];
+
+                const productsSort = await User.find()
+                    .limit(limit)
+                    .skip(page * limit)
+                    .sort(objectSort);
+                resolve({
+                    message: 'SUCCESS',
+                    status: 'OK',
+                    products: productsSort,
+                    totalProduct: totalUser,
+                    pageCurrent: +page + 1,
+                    totalPage: Math.ceil(totalUser / limit),
+                });
+            }
+
             const users = await User.find()
                 .limit(limit)
                 .skip(page * limit);
