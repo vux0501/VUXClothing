@@ -118,19 +118,25 @@ const getAllUsers = (limit, page, sort, filter) => {
         try {
             const totalUser = await User.count();
 
-            //filter
-            if (filter) {
+            //filter + sort
+            if (filter && sort) {
+                const objectSort = {};
+                objectSort[sort[0]] = sort[1];
+
                 const usersFilter = await User.find({ [filter[0]]: { $regex: filter[1] } })
                     .limit(limit)
-                    .skip(page * limit);
+                    .skip(page * limit)
+                    .sort(objectSort);
 
+                const totalUserFilter = usersFilter.length;
+                console.log(totalUserFilter);
                 resolve({
                     message: 'SUCCESS',
                     status: 'OK',
                     users: usersFilter,
-                    totalUser: totalUser,
+                    totalUser: totalUserFilter,
                     pageCurrent: +page + 1,
-                    totalPage: Math.ceil(totalUser / limit),
+                    totalPage: Math.ceil(totalUserFilter / limit),
                 });
             }
             //sort

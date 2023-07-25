@@ -16,12 +16,15 @@ const TableUserPaginate = (props) => {
         setCurrentPage,
         sortBy,
         sortType,
+        filterBy,
+        filterValue,
         setSortBy,
         setSortType,
+        setFilterBy,
+        setFilterValue,
     } = props;
     const handlePageClick = (event) => {
-        console.log(sortBy, sortType);
-        fetchListUsersWithPaginate(+event.selected, sortBy, sortType ? 'asc' : 'desc');
+        fetchListUsersWithPaginate(+event.selected, sortBy, sortType ? 'asc' : 'desc', filterBy, filterValue);
         setCurrentPage(+event.selected);
     };
     //chuyen doi dinh dang ngay
@@ -39,30 +42,25 @@ const TableUserPaginate = (props) => {
     };
 
     const userCurrent = useSelector((state) => state.user);
-
+    console.log(filterBy);
     return (
         <div>
             <Form className="sort-filter-container">
                 <Form.Group className="mb-3" controlId="filter">
                     <Form.Label>Tìm kiếm theo</Form.Label>
                     <Form.Select
-                    // value={sortType}
-                    // onChange={(event) => {
-                    //     const newValue = event.target.value === 'true';
-                    //     setSortType(newValue);
-                    //     setCurrentPage(0);
-                    // }}
+                        value={filterBy}
+                        onChange={(event) => {
+                            const newFilterBy = event.target.value;
+                            setFilterBy(newFilterBy);
+                            setCurrentPage(0);
+                        }}
                     >
                         <option value={'email'}>Email</option>
                         <option value={'name'}>Họ và Tên</option>
                         <option value={'phone'}>Số điện thoại</option>
-                        <option value={'role'}>Vai trò</option>
                     </Form.Select>
-                    <Form.Control
-                        type="text"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
-                    />
+                    <Form.Control type="text" value={filterValue} onChange={(e) => setFilterValue(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="sort">

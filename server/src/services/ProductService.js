@@ -43,26 +43,47 @@ const getAllProduct = (limit, page, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const totalProduct = await Product.count();
-            //filter
-            if (filter) {
-                const type = filter[0];
+            //filter + sort
+            if (filter && sort) {
+                const objectSort = {};
+                objectSort[sort[0]] = sort[1];
                 const productsFilter = await Product.find({ [filter[0]]: { $regex: filter[1] } })
                     .limit(limit)
-                    .skip(page * limit);
+                    .skip(page * limit)
+                    .sort(objectSort);
+                const totalProductFilter = productsFilter.length;
                 resolve({
                     message: 'SUCCESS',
                     status: 'OK',
                     products: productsFilter,
-                    totalProduct: totalProduct,
+                    totalProduct: totalProductFilter,
                     pageCurrent: +page + 1,
-                    totalPage: Math.ceil(totalProduct / limit),
+                    totalPage: Math.ceil(totalProductFilter / limit),
+                });
+            }
+
+            //filter
+            if (filter) {
+                const productsFilter = await Product.find({ [filter[0]]: { $regex: filter[1] } })
+                    .limit(limit)
+                    .skip(page * limit);
+
+                const totalProductFilter = productsFilter.length;
+
+                resolve({
+                    message: 'SUCCESS',
+                    status: 'OK',
+                    products: productsFilter,
+                    totalProduct: totalProductFilter,
+                    pageCurrent: +page + 1,
+                    totalPage: Math.ceil(totalProductFilter / limit),
                 });
             }
             //sort
             if (sort) {
+                console.log('sort');
                 const objectSort = {};
                 objectSort[sort[0]] = sort[1];
-
                 const productsSort = await Product.find()
                     .limit(limit)
                     .skip(page * limit)

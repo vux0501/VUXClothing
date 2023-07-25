@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ManageUser.scss';
 import { useNavigate } from 'react-router-dom';
-import { getUserWithPaginate } from '../../../services/AuthServices';
+import { getAllUserWithPaginate } from '../../../services/AuthServices';
 import { Spinner } from 'react-bootstrap';
 
 import DeleteUserModal from './DeleteUserModal/DeleteUserModal';
@@ -23,16 +23,16 @@ const ManageUser = () => {
     const [sortType, setSortType] = useState(false);
 
     //filter
-    const [filterBy, setFilterBy] = useState('name');
+    const [filterBy, setFilterBy] = useState('email');
     const [filterValue, setFilterValue] = useState('');
 
     useEffect(() => {
-        fetchListUsersWithPaginate(0, sortBy, sortType ? 'asc' : 'desc');
-    }, [sortType]);
+        fetchListUsersWithPaginate(0, sortBy, sortType ? 'asc' : 'desc', filterBy, filterValue);
+    }, [sortType, filterBy, filterValue]);
 
-    const fetchListUsersWithPaginate = async (page, sortBy, sortType) => {
+    const fetchListUsersWithPaginate = async (page, sortBy, sortType, filterBy, filterValue) => {
         setIsLoading(true);
-        const res = await getUserWithPaginate(page, LIMIT_USER, sortBy, sortType);
+        const res = await getAllUserWithPaginate(page, LIMIT_USER, sortBy, sortType, filterBy, filterValue);
         setIsLoading(false);
         if (res.status === 'OK') {
             setArrUsers(res.users);
@@ -75,6 +75,10 @@ const ManageUser = () => {
                         sortType={sortType}
                         setSortBy={setSortBy}
                         setSortType={setSortType}
+                        filterBy={filterBy}
+                        setFilterBy={setFilterBy}
+                        filterValue={filterValue}
+                        setFilterValue={setFilterValue}
                     />
                 </div>
             </div>

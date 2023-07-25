@@ -22,8 +22,13 @@ const getAllUser = () => {
     return axios.get(`/user/getAllUsers`);
 };
 
-const getUserWithPaginate = (page, limit, sortBy, sortType, filterBy, filterValue) => {
+const getAllUserWithPaginate = (page, limit, sortBy, sortType, filterBy, filterValue) => {
     if (sortBy && sortType) {
+        if (filterBy && filterValue) {
+            return axios.get(
+                `/user/getAllUsers?page=${page}&limit=${limit}&sort=${sortBy}&sort=${sortType}&filter=${filterBy}&filter=${filterValue}`,
+            );
+        }
         return axios.get(`/user/getAllUsers?page=${page}&limit=${limit}&sort=${sortBy}&sort=${sortType}`);
     }
     return axios.get(`/user/getAllUsers?page=${page}&limit=${limit}`);
@@ -62,5 +67,5 @@ export {
     putUpdateUser,
     getAllUser,
     deleteUser,
-    getUserWithPaginate,
+    getAllUserWithPaginate,
 };
